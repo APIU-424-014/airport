@@ -4,7 +4,7 @@ airport
 a simple airport game
 
 
-NEXT STEPS
+next steps
 ----------
 - add program-head
 - add comments
