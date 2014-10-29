@@ -1,22 +1,22 @@
 /****************************************************************************************
- * Projekt			Airport Simulator
- * Programm			main.cpp
+ * Projekt		Airport Simulator
+ * Programm		main.cpp
  * Plattform		Linux / Unix, Windows
  * 
- * Autor			Chris Schweighofer
- * Datum			29. Okt. 2014
- * Version			1.1
+ * Autor		Chris Schweighofer
+ * Datum		29. Okt. 2014
+ * Version		1.1
  * 
  * Description		Airport Simulator
- * 					Ein Konsolen-Programm welches einen Flughafen simuliert.
- * 					Es existieren 5 Flugzeuge sowie 5 Start-Landebahnen (Runway)
- * 					Darstellung der Übersicht des Flughafens sowie starten und landen der Flugzeuge
- * 					durch den Benutzer.
+ * 			Ein Konsolen-Programm welches einen Flughafen simuliert.
+ * 			Es existieren 5 Flugzeuge sowie 5 Start-Landebahnen (Runway)
+ * 			Darstellung der Übersicht des Flughafens sowie starten und landen der Flugzeuge
+ * 			durch den Benutzer.
  * 
  * Aenderungen	von	Version	Beschrieb
  * 
- * 2014-10-27	CS	1.0		Fertigstellung der Funktionen und Programmwiederholung
- * 2014-10-29	CS	1.1		ErrorHandling für Benutzer Eingaben, Funktion clearScreen() 
+ * 2014-10-27	CS	1.0	Fertigstellung der Funktionen und Programmwiederholung
+ * 2014-10-29	CS	1.1	ErrorHandling für Benutzer Eingaben, Funktion clearScreen() 
  * 
  * Copyright (c) under GNU General Public License (GPL v3)
  * more: http://www.gnu.de/documents/gpl-3.0.de.html
