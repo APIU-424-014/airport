@@ -6,5 +6,5 @@ a simple airport game
 
 next steps
 ----------
-- add program-head
+- add program-head ✓
 - add comments
