@@ -36,7 +36,10 @@ int main(){
 			"\n### 1\t Starting\n### 2\t Langing\n### 3\t Airport Overview\n"
 			"### -1\t Exit Game!\n"
 			"\n############################\n";
-		cin>>uChoice;
+		//USER INPUT AND ERROR HANDLING
+		while(!(cin>>uChoice && uChoice!=0 && uChoice>-2 && uChoice<4)){
+			cout<<"error: falsche Eingabe! Try again: ";
+		}
 		
 		clearScreen();
 		switch(uChoice){
