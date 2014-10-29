@@ -38,7 +38,7 @@ int main(){
 			"\n############################\n";
 		//USER INPUT AND ERROR HANDLING
 		while(!(cin>>uChoice && uChoice!=0 && uChoice>-2 && uChoice<4)){
-			cout<<"error: falsche Eingabe! Try again: ";
+			cout<<"error: falsche Eingabe! Try again:\t";
 		}
 		
 		clearScreen();
