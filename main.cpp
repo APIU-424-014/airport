@@ -1,8 +1,35 @@
-#include <iostream>
+/****************************************************************************************
+ * Projekt			Airport Simulator
+ * Programm			main.cpp
+ * Plattform		Linux / Unix, Windows
+ * 
+ * Autor			Chris Schweighofer
+ * Datum			29. Okt. 2014
+ * Version			1.1
+ * 
+ * Description		Airport Simulator
+ * 					Ein Konsolen-Programm welches einen Flughafen simuliert.
+ * 					Es existieren 5 Flugzeuge sowie 5 Start-Landebahnen (Runway)
+ * 					Darstellung der Übersicht des Flughafens sowie starten und landen der Flugzeuge
+ * 					durch den Benutzer.
+ * 
+ * Aenderungen	von	Version	Beschrieb
+ * 
+ * 2014-10-27	CS	1.0		Fertigstellung der Funktionen und Programmwiederholung
+ * 2014-10-29	CS	1.1		ErrorHandling für Benutzer Eingaben, Funktion clearScreen() 
+ * 
+ * Copyright (c) under GNU General Public License (GPL v3)
+ * more: http://www.gnu.de/documents/gpl-3.0.de.html
+ ****************************************************************************************/ 
+
+
+
+#include <iostream>		//in- output
 #include <cstdlib>		//system()
 
 using namespace std;
 
+//structers
 struct plane{
 	bool fly;
 	int id;
@@ -14,15 +41,19 @@ struct runway{
 	int id;
 };
 
+//prototypes
 void initialAirport(plane*, runway*);
 void overview(plane*, runway*);
 void starting(plane*, runway*);
 void landing(plane*, runway*);
 void clearScreen();
 
+
 int main(){
+	
 	short all=5;
 	short uChoice;
+	
 	plane pl[all];
 	runway rw[all];
 	
@@ -58,6 +89,8 @@ int main(){
 }
 
 void initialAirport(plane *p, runway *r){
+	//numbers of the 5 plains (starts with 222)
+	//every other plane fly=true (%2)
 	for(short i=0;i<5; i++){
 		p[i].id=i+222;
 		if(i%2){
@@ -66,6 +99,7 @@ void initialAirport(plane *p, runway *r){
 			p[i].fly=false;
 		}
 	}
+	//add a not flying plane to a runway 
 	for(short i=0; i<5; i++){
 		if(p[i].fly){
 			r[i].id=i+1;
@@ -77,6 +111,9 @@ void initialAirport(plane *p, runway *r){
 		}
 	}
 }
+
+
+//Airport Overview
 
 void overview(plane *p, runway *r){
 	cout<<"\nUebersicht Flughafen\n############################\n";
@@ -96,6 +133,9 @@ void overview(plane *p, runway *r){
 	}
 	cout<<endl<<endl;
 }
+
+
+//starting and landing
 
 void starting(plane *p, runway *r){
 	short fn, rn;
@@ -156,6 +196,7 @@ void landing(plane *p, runway *r){
 	}
 	cout<<endl<<endl;
 }
+
 
 void clearScreen(){
 #ifdef WINDOWS
