@@ -26,10 +26,15 @@
 
 #include <iostream>		//in- output
 #include <cstdlib>		//system()
+#include <fstream>
+#include <sstream>
+#include <ostream>
+#include <unistd.h>	//usleep()
 
 using namespace std;
 
-//structers
+
+//structs
 struct plane{
 	bool fly;
 	int id;
@@ -46,6 +51,7 @@ void initialAirport(plane*, runway*);
 void overview(plane*, runway*);
 void starting(plane*, runway*);
 void landing(plane*, runway*);
+int showPlane(string);
 void clearScreen();
 
 
@@ -60,13 +66,23 @@ int main(){
 	initialAirport(&pl[0], &rw[0]);
 
 	clearScreen();
+
 	while(uChoice!=-1){
-		
-		cout<<"\n############################\n"
-			"###\t### MENU ###\t###\n############################\n"
-			"\n### 1\t Starting\n### 2\t Langing\n### 3\t Airport Overview\n"
-			"### -1\t Exit Game!\n"
-			"\n############################\n";
+		cout<<"\n############################\n";
+		usleep(100000);
+		cout<<"###\t### MENU ###\t###\n";
+		usleep(100000);
+		cout<<"############################\n";
+		usleep(100000);
+		cout<<"\n### 1\t Starting\n";
+		usleep(100000);
+		cout<<"### 2\t Landing\n";
+		usleep(100000);
+		cout<<"### 3\t Airport Overview\n";
+		usleep(100000);
+		cout<<"### -1\t Exit Game!\n";
+		usleep(100000);
+		cout<<"\n############################\n";
 		//USER INPUT AND ERROR HANDLING
 		while(!(cin>>uChoice && uChoice!=0 && uChoice>-2 && uChoice<4)){
 			cout<<"error: falsche Eingabe! Try again:\t";
@@ -116,7 +132,12 @@ void initialAirport(plane *p, runway *r){
 //Airport Overview
 
 void overview(plane *p, runway *r){
-	cout<<"\nUebersicht Flughafen\n############################\n";
+	showPlane("overv");
+	usleep(100000);
+	cout<<"\nUebersicht Flughafen\n";
+	usleep(100000);
+	cout<<"############################\n";
+	usleep(100000);
 	for(short i=0; i<5; i++){
 		cout<<"\nRunway ~"<<r[i].id<<"~ ist";
 		if(r[i].occupied){
@@ -124,12 +145,14 @@ void overview(plane *p, runway *r){
 		}else{
 			cout<<" frei!"; 
 		}
+		usleep(100000);
 	}
 	cout<<endl;
 	for(short i=0; i<5; i++){
 		if(p[i].fly){
 			cout<<"\nFlugzeug -="<<p[i].id<<"=- ist in der Luft!";
 		}
+		usleep(100000);
 	}
 	cout<<endl<<endl;
 }
@@ -138,8 +161,13 @@ void overview(plane *p, runway *r){
 //starting and landing
 
 void starting(plane *p, runway *r){
+	showPlane("onground");
+	usleep(100000);
 	short fn, rn;
-	cout<<"\nFlugzeug starten lassen\n############################\n";
+	cout<<"\nFlugzeug starten lassen\n";
+	usleep(100000);
+	cout<<"############################\n";
+	usleep(100000);
 	cout<<"\nGib die Runway Nummer und Flugzeug Nummer an\n";
 	cout<<"Runway:\t\t";
 	//USER INPUT & ERROR HANDLING
@@ -150,26 +178,34 @@ void starting(plane *p, runway *r){
 	cout<<"Flugzeug:\t";
 	
 	while(!(cin>>fn && fn<227 && fn>221)){
-		cout<<"error: FLugzeug existiert nicht! Try again:\t";
+		cout<<"error: Flugzeug existiert nicht! Try again:\t";
 	}
 	cout<<endl;
 	
 	if(!(r[rn].occupied)){
-		cout<<"Runway ~"<<rn+1<<"~ ist nicht belegt!";
+		showPlane("emRW");
+		cout<<"\nRunway ~"<<rn+1<<"~ ist nicht belegt!";
 	}else if(r[rn].occupiedBy==fn){
-		cout<<"Flugzeug -="<<fn<<"=- ist gestartet!";
+		usleep(1000000);
+		showPlane("flying");
+		cout<<"\nFlugzeug -="<<fn<<"=- ist gestartet!";
 		r[rn].occupied=false;
 		r[rn].occupiedBy=NULL;
 		p[fn-222].fly=true;
 	}else{
-		cout<<"Flugzeug -="<<fn<<"=- steht nicht auf dem Runway!";
+		showPlane("flying");
+		cout<<"\nFlugzeug -="<<fn<<"=- steht nicht auf dem Runway!";
 	}
 	cout<<endl<<endl;
 }
 
 void landing(plane *p, runway *r){
 	short fn, rn;
-	cout<<"\nFlugzeug landen lassen\n############################\n";
+	usleep(100000);
+	cout<<"\nFlugzeug landen lassen\n";
+	usleep(100000);
+	cout<<"############################\n";
+	usleep(100000);
 	cout<<"\nGib die Flugzeug Nummer und die Runway Nummer an\n";
 	cout<<"Flugzeug:\t";
 	//USER INPUT & ERROR HANDLING
@@ -185,11 +221,15 @@ void landing(plane *p, runway *r){
 	cout<<endl;
 	
 	if(!(p[fn-222].fly)){
-		cout<<"Flugzeug -="<<fn<<"=- ist nicht in der Luft!";
+		showPlane("onground");
+		cout<<"\nFlugzeug -="<<fn<<"=- ist nicht in der Luft!";
 	}else if(r[rn].occupied){
-		cout<<"Runway ~"<<rn+1<<"~ ist belegt!";
+		showPlane("onground");
+		cout<<"\nRunway ~"<<rn+1<<"~ ist belegt!";
 	}else{
-		cout<<"Flugzeug -="<<fn<<"=- ist sicher auf Runway ~"<<rn+1<<"~ gelandet!";
+		usleep(1000000);
+		showPlane("landing");
+		cout<<"\nFlugzeug -="<<fn<<"=- ist sicher auf Runway ~"<<rn+1<<"~ gelandet!";
 		p[fn-222].fly=false;
 		r[rn].occupied=true;
 		r[rn].occupiedBy=fn;
@@ -204,4 +244,26 @@ void clearScreen(){
 #else
 		system("clear");
 #endif
+}
+
+int showPlane(string w){
+	string mText[1024];
+	//ifstream file;
+	ostringstream fn;
+	fn <<".//ascii_art//"<< w<<".txt";
+	ifstream fileToShow(fn.str().c_str(),ios::in | ios::binary);
+	if(fileToShow==NULL){
+		cout<<"error: file not found!\t"<<fileToShow<<endl;
+		return 1;
+	}
+	while (fileToShow.good())          // loop while extraction from file is possible
+	{
+		char c = fileToShow.get();       // get character from file
+		if (fileToShow.good()){
+			cout << c;
+			usleep(2500);
+		}
+	}
+	cout<<endl;
+	fileToShow.close();
 }
