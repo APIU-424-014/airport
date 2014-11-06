@@ -1,22 +1,22 @@
 /****************************************************************************************
- * Projekt			Airport Simulator
- * Programm			main.cpp
+ * Projekt		Airport Simulator
+ * Programm		main.cpp
  * Plattform		Linux / Unix, Windows
  * 
- * Autor			Chris Schweighofer
- * Datum			29. Okt. 2014
- * Version			1.1
+ * Autor		Chris Schweighofer
+ * Datum		29. Okt. 2014
+ * Version		1.1
  * 
  * Description		Airport Simulator
- * 					Ein Konsolen-Programm welches einen Flughafen simuliert.
- * 					Es existieren 5 Flugzeuge sowie 5 Start-Landebahnen (Runway)
- * 					Darstellung der Übersicht des Flughafens sowie starten und landen der Flugzeuge
- * 					durch den Benutzer.
+ * 			Ein Konsolen-Programm welches einen Flughafen simuliert.
+ * 			Es existieren 5 Flugzeuge sowie 5 Start-Landebahnen (Runway)
+ * 			Darstellung der Übersicht des Flughafens sowie starten und landen der Flugzeuge
+ * 			durch den Benutzer.
  * 
  * Aenderungen	von	Version	Beschrieb
  * 
- * 2014-10-27	CS	1.0		Fertigstellung der Funktionen und Programmwiederholung
- * 2014-10-29	CS	1.1		ErrorHandling für Benutzer Eingaben, Funktion clearScreen() 
+ * 2014-10-27	CS	1.0	Fertigstellung der Funktionen und Programmwiederholung
+ * 2014-10-29	CS	1.1	ErrorHandling für Benutzer Eingaben, Funktion clearScreen() 
  * 
  * Copyright (c) under GNU General Public License (GPL v3)
  * more: http://www.gnu.de/documents/gpl-3.0.de.html
@@ -29,7 +29,8 @@
 #include <fstream>
 #include <sstream>
 #include <ostream>
-#include <unistd.h>
+#include <unistd.h>		//usleep(microseconds)
+#include <limits>
 
 using namespace std;
 
@@ -53,6 +54,7 @@ void starting(plane*, runway*);
 void landing(plane*, runway*);
 int showPlane(string);
 void clearScreen();
+void cinClear();
 
 
 int main(){
@@ -66,6 +68,7 @@ int main(){
 	initialAirport(&pl[0], &rw[0]);
 
 	clearScreen();
+
 
 	while(uChoice!=-1){
 		cout<<"\n############################\n";
@@ -86,6 +89,7 @@ int main(){
 		//USER INPUT AND ERROR HANDLING
 		while(!(cin>>uChoice && uChoice!=0 && uChoice>-2 && uChoice<4)){
 			cout<<"error: falsche Eingabe! Try again:\t";
+			cinClear();
 		}
 		
 		clearScreen();
@@ -153,8 +157,12 @@ void overview(plane *p, runway *r){
 			cout<<"\nFlugzeug -="<<p[i].id<<"=- ist in der Luft!";
 		}
 		usleep(100000);
-	}
+	}	
+	cout<<"\n\npress <Enter>";
+	cinClear();
+	cin.get();
 	cout<<endl<<endl;
+	clearScreen();
 }
 
 
@@ -181,7 +189,7 @@ void starting(plane *p, runway *r){
 		cout<<"error: Flugzeug existiert nicht! Try again:\t";
 	}
 	cout<<endl;
-	
+	clearScreen();
 	if(!(r[rn].occupied)){
 		showPlane("emRW");
 		cout<<"\nRunway ~"<<rn+1<<"~ ist nicht belegt!";
@@ -193,7 +201,7 @@ void starting(plane *p, runway *r){
 		r[rn].occupiedBy=NULL;
 		p[fn-222].fly=true;
 	}else{
-		showPlane("flying");
+		showPlane("noplane");
 		cout<<"\nFlugzeug -="<<fn<<"=- steht nicht auf dem Runway!";
 	}
 	cout<<endl<<endl;
@@ -219,12 +227,12 @@ void landing(plane *p, runway *r){
 	}
 	rn=rn-1;
 	cout<<endl;
-	
+	clearScreen();
 	if(!(p[fn-222].fly)){
 		showPlane("onground");
 		cout<<"\nFlugzeug -="<<fn<<"=- ist nicht in der Luft!";
 	}else if(r[rn].occupied){
-		showPlane("onground");
+		showPlane("occ");
 		cout<<"\nRunway ~"<<rn+1<<"~ ist belegt!";
 	}else{
 		usleep(1000000);
@@ -268,4 +276,7 @@ int showPlane(string w){
 	fileToShow.close();
 }
 
-
+void cinClear(){
+	cin.clear();
+	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
