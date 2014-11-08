@@ -249,8 +249,12 @@ void landing(plane *p, runway *r){
 void clearScreen(){
 #ifdef WINDOWS
 		system("cls");
+#elif _WIN32
+		system("cls");
+#elif _WIN64
+		system("cls");
 #else
-		system("clear");
+		system("clear")
 #endif
 }
 
