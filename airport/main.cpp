@@ -254,7 +254,7 @@ void clearScreen(){
 #elif _WIN64
 		system("cls");
 #else
-		system("clear")
+		system("clear");
 #endif
 }
 
